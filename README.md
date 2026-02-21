@@ -17,23 +17,21 @@
 
 ## 共通事項
 
-### アクセスURL（ローカル開発時）
+### アクセスURL
 
-- **フロントエンド（アプリ）**: http://localhost:5173
-- **ログイン画面**: http://localhost:5173/login
-- **管理画面**: http://localhost:5173/admin/dashboard（ログイン後）
-- **DJ画面**: http://localhost:5173/dj/dashboard（ログイン後）
-- **エントランス**: http://localhost:5173/e
-- **ゲスト招待**: http://localhost:5173/guest/{token}（token は DJ が発行した招待ごとの値）
+- **フロントエンド（アプリ）**: https://womb.minami-umemoto.jp/
+- **ログイン画面**: https://womb.minami-umemoto.jp/
+- **管理画面**: http://womb.minami-umemoto.jp/admin/dashboard（ログイン後）
+- **DJ画面**: http://womb.minami-umemoto.jp/dj/dashboard（ログイン後）
+- **エントランス**: http://womb.minami-umemoto.jp/e
+- **ゲスト招待**: http://womb.minami-umemoto.jp/guest/{token}（token は DJ が発行した招待ごとの値）
 
 ### ログイン概要
 
-- 管理者: メールアドレス `admin@example.com` でログイン（本プロトタイプは簡易認証のためパスワード入力なしの場合あり）
-- DJ: メールアドレス `dj@example.com` でログイン
-- ゲスト: 招待URLのみでアクセス。名前確認で「DJが設定した名前」を入力する
-- エントランス: ログイン不要。ブラウザで /e を開いてQR認証を行う
+- 管理者: メールアドレスとパスワードでログイン
+- DJ: メールアドレスとパスワードでログイン
+- ゲスト: メールアドレスとパスワードでログインし招待URLのみでアクセス。名前確認で「DJが設定した名前」を入力する
+- ゲスト: ログインせず、名前確認で「DJが設定した名前」を入力する
+- エントランス: メールアドレスとパスワードでログインし、ブラウザで /e を開いてQR認証を行う
 
 ### 注意事項
-
-- 本プロトタイプは技術確認用です。本番運用前には認証・セキュリティ・データ永続化等の実装が必要です。
-- 画面キャプチャは別途撮影し、必要に応じて `images/` に配置してマニュアルから参照できます。
