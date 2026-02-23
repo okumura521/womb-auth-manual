@@ -6,22 +6,124 @@
   <title>WOMB認証システム 使用マニュアル</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   <link rel="stylesheet" href="custom.css">
+  <style>
+    #auth-gate {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+      font-family: system-ui, sans-serif;
+      background: #f6f8fa;
+    }
+    #auth-gate h1 {
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+      color: #24292f;
+    }
+    #auth-gate form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 280px;
+    }
+    #auth-gate input[type="password"] {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    #auth-gate button {
+      padding: 0.5rem 1rem;
+      background: #238636;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #auth-gate button:hover {
+      background: #2ea043;
+    }
+    #auth-gate .error {
+      font-size: 0.875rem;
+      color: #cf222e;
+    }
+    #app { display: none; }
+    body.authenticated #auth-gate { display: none; }
+    body.authenticated #app { display: block; }
+  </style>
 </head>
 <body>
+  <div id="auth-gate">
+    <h1>WOMB認証システム 使用マニュアル</h1>
+    <p>パスワードを入力してください。</p>
+    <form id="auth-form" action="javascript:;">
+      <input type="password" id="auth-password" placeholder="パスワード" autocomplete="current-password" autofocus>
+      <button type="submit">送信</button>
+      <p id="auth-error" class="error" style="display:none;"></p>
+    </form>
+  </div>
   <div id="app"></div>
   <script>
-    window.$docsify = {
-      name: 'WOMB認証システム マニュアル',
-      loadSidebar: true,
-      subMaxLevel: 3,
-      homepage: 'README.md',
-      search: 'auto',
-      relativePath: true
-    };
+    (function () {
+      var AUTH_KEY = 'womb-manual-auth';
+      var PASSWORD = 'wombform';
+
+      if (sessionStorage.getItem(AUTH_KEY) === '1') {
+        document.body.classList.add('authenticated');
+        loadDocsify();
+        return;
+      }
+
+      var form = document.getElementById('auth-form');
+      var input = document.getElementById('auth-password');
+      var errEl = document.getElementById('auth-error');
+
+      form.addEventListener('submit', function () {
+        errEl.style.display = 'none';
+        if (input.value === PASSWORD) {
+          sessionStorage.setItem(AUTH_KEY, '1');
+          document.body.classList.add('authenticated');
+          loadDocsify();
+        } else {
+          errEl.textContent = 'パスワードが正しくありません。';
+          errEl.style.display = 'block';
+          input.focus();
+        }
+      });
+    })();
+
+    function loadDocsify() {
+      window.$docsify = {
+        name: 'WOMB認証システム マニュアル',
+        loadSidebar: true,
+        subMaxLevel: 3,
+        homepage: 'README.md',
+        search: 'auto',
+        relativePath: true
+      };
+      var s1 = document.createElement('script');
+      s1.src = 'https://cdn.jsdelivr.net/npm/docsify@4';
+      document.body.appendChild(s1);
+      s1.onload = function () {
+        var s2 = document.createElement('script');
+        s2.src = 'https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js';
+        document.body.appendChild(s2);
+        s2.onload = function () {
+          var s3 = document.createElement('script');
+          s3.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+          document.body.appendChild(s3);
+          s3.onload = function () {
+            var s4 = document.createElement('script');
+            s4.src = 'https://cdn.jsdelivr.net/npm/docsify-mermaid@1/dist/docsify-mermaid.min.js';
+            document.body.appendChild(s4);
+          };
+        };
+      };
+    }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@1/dist/docsify-mermaid.min.js"></script>
 </body>
 </html>
